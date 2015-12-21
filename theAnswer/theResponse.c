@@ -5,7 +5,7 @@
 */
 
 #include <stdio.h>
-#define KEY_SIZE // at least as longar as the cyphertext
+#define KEY_SIZE 255
 
 char flag_cyphertext[] = {
 	0x53, 0x77, 0x90, 0x1c, 0x10, 0x8a, 0x0e, 0x69, 0x60, 0x25, 0xca,
@@ -45,11 +45,11 @@ int randInt(int min, int max) {
 
 char *computeXorKey() {
 	// the key is hidden in the random predictability
-	char *key = (char *)malloc(255);
-	memset(key,0,255);
+	char *key = (char *)malloc(KEY_SIZE);
+	memset(key,0,KEY_SIZE);
 	srand(seed);
 	bucket = (rand()*rand() ^ ~rand()) + rand() + rand();
-	for (int thread_id=0; thread_id < 255; thread_id++) {
+	for (int thread_id=0; thread_id < KEY_SIZE; thread_id++) {
 		//randInt(1,3);
 		key[thread_id] = randInt(0x00, 0xff) ^ thread_id;  // simulate a correct order execution of the threads
 	}
